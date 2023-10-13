@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9541221b8ab75e041974ff014dc38ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSettings: {fileID: 11400000, guid: 9240ef7bd1bbaf6429b18ae5cce8af97, type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +507,7 @@ GameObject:
   - component: {fileID: 3798537290452997070}
   - component: {fileID: 1392714835939452676}
   - component: {fileID: 3798537290452997071}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Start Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

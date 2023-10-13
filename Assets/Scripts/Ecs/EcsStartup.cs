@@ -1,12 +1,17 @@
+using Ecs.Components.Events;
+using Ecs.Components.Requests;
 using Ecs.Systems;
 using UnityEngine;
 using Leopotam.Ecs;
+using ScriptableObjects;
 using Voody.UniLeo;
 
 namespace Ecs
 {
 	public sealed class EcsStartup : MonoBehaviour
 	{
+		[SerializeField] private PlayerSettings playerSettings;
+		
 		private EcsWorld _world;
 		private EcsSystems _systems;
 
@@ -16,24 +21,32 @@ namespace Ecs
 			_systems = new EcsSystems(_world).ConvertScene();
 
 			AddSystems();
-			AddInjections();
+			AddOneFrames();
 
+			_systems.Inject(playerSettings);
 			_systems.Init();
 		}
 
 		private void AddSystems()
 		{
-			_systems
-				
-				// .Add(new ChangeFpsLimitSystem()
-				// .Add(new PlayerInputSystem())
-				
-				.Add(new DebugMessageSystem());
+			// _systems.Add(new ChangeFpsLimitSystem()
+
+			_systems.Add(new PlayerInputSystem());
+			_systems.Add(new PlayerJumpSystem());
+			_systems.Add(new PlayerMovementSystem());
+			_systems.Add(new PlayerAnimationSystem());
+			
+			_systems.Add(new DebugMessageSystem());
 		}
 
-		private void AddInjections()
+		private void AddOneFrames()
 		{
-			// _systems.Inject(...);
+			_systems
+				.OneFrame<PlayerEnableInputEvent>()
+				.OneFrame<PlayerDisableInputEvent>()
+				.OneFrame<PlayerJumpEvent>()
+				.OneFrame<PlayerMovementRequest>()
+				.OneFrame<DebugMessageRequest>();
 		}
 
 		private void Update() => _systems?.Run();

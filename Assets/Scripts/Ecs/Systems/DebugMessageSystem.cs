@@ -24,8 +24,6 @@ namespace Ecs.Systems
                     case MessageType.Error:   Debug.LogError(messageEvent.message);   break;
                     default: throw new ArgumentOutOfRangeException(nameof(messageEvent.type));
                 }
-                
-                _messagesFilter.GetEntity(entityId).Del<DebugMessageRequest>();
             }
         }
     }
