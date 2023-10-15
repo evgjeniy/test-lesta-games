@@ -1,5 +1,6 @@
 ﻿using Ecs.Components;
 using Ecs.Components.Events;
+using Ecs.Components.Requests;
 using Ecs.Components.Tags;
 using Leopotam.Ecs;
 using ScriptableObjects;
@@ -17,9 +18,12 @@ namespace Ecs.Systems
         {
             foreach (var entityId in _playerJumpFilter)
             {
+                ref var entity = ref _playerJumpFilter.GetEntity(entityId);
                 ref var rigidbody = ref _playerJumpFilter.Get1(entityId).rigidbody;
-                ref var jumpComponent = ref _playerJumpFilter.Get2(entityId);
 
+                if (ContainsTrampolineRequest(entity, rigidbody)) continue;
+                
+                ref var jumpComponent = ref _playerJumpFilter.Get2(entityId);
                 jumpComponent.isGrounded = Physics.CheckSphere(
                     jumpComponent.triggerCenter.position,
                     jumpComponent.triggerRadius,
@@ -27,9 +31,19 @@ namespace Ecs.Systems
 
                 if (jumpComponent.isGrounded is false || _jumpEventFilter.IsEmpty()) continue;
                 
-                var oldVelocity = rigidbody.velocity;
-                rigidbody.velocity = new Vector3(oldVelocity.x, _settings.jumpForce, oldVelocity.z);
+                rigidbody.velocity = CalculateVelocity(rigidbody.velocity, _settings.jumpForce);
             }
         }
+
+        private static bool ContainsTrampolineRequest(EcsEntity entity, Rigidbody rigidbody)
+        {
+            if (entity.Has<TrampolineJumpRequest>() is false) return false;
+            
+            var trampolineJumpForce = entity.Get<TrampolineJumpRequest>().jumpForce;
+            rigidbody.velocity = CalculateVelocity(rigidbody.velocity, trampolineJumpForce);
+            return true;
+        }
+
+        private static Vector3 CalculateVelocity(Vector3 old, float y) => new(old.x, y, old.z);
     }
 }

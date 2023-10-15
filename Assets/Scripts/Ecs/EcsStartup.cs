@@ -48,6 +48,7 @@ namespace Ecs
 			_systems.OneFrame<PlayerEnableInputEvent>();
 			_systems.OneFrame<PlayerDisableInputEvent>();
 			_systems.OneFrame<PlayerJumpEvent>();
+			_systems.OneFrame<TrampolineJumpRequest>();
 			_systems.OneFrame<PlayerMovementRequest>();
 			_systems.OneFrame<PlayerMouseMoveRequest>();
 			_systems.OneFrame<HealRequest>();

@@ -18,7 +18,7 @@ MonoBehaviour:
   runAnimationSmoothTime: 10
   jumpForce: 6
   verticalRotationBounds: {x: 10, y: 130}
-  cameraSensitivity: {x: 5, y: 5}
+  cameraSensitivity: {x: 10, y: 10}
   maxDistanceToTarget: 5
   cameraZoomSpeed: 15
   isCollided: 1
