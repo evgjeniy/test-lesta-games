@@ -8,7 +8,7 @@ namespace Ecs.Systems
 {
     public class DebugMessageSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<DebugMessageRequest> _messagesFilter = null;
+        private readonly EcsFilter<DebugMessageRequest> _messagesFilter;
         
         public void Run()
         {

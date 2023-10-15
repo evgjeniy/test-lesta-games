@@ -18,28 +18,41 @@ namespace Ecs.Systems
         public void Init()
         {
             _input = new PlayerInput();
-            _input.Player.Jump.performed += JumpOnPerformed;
+            _input.Player.Jump.performed += SendJumpEvent;
             _input.Enable();
         }
 
-        public void Destroy() => _input.Player.Jump.performed -= JumpOnPerformed;
+        public void Destroy() => _input.Player.Jump.performed -= SendJumpEvent;
 
-        private void JumpOnPerformed(InputAction.CallbackContext obj) => _world.SendMessage<PlayerJumpEvent>();
+        private void SendJumpEvent(InputAction.CallbackContext _) => _world.SendMessage<PlayerJumpEvent>();
 
         public void Run()
         {
             if (_enableFilter.IsEmpty() is false) _input.Enable();
             if (_disableFilter.IsEmpty() is false) _input.Disable();
             
-            var direction = _input.Player.Move.ReadValue<Vector2>();
-            if (direction.magnitude >= Constants.normalizedMoveSpeed.x)
-                _world.SendMessage(new PlayerMovementRequest
-                {
-                    moveDirection = new Vector3(direction.x, 0.0f, direction.y),
-                    isRunning = _input.Player.Sprint.ReadValue<float>() != 0.0f
-                });
+            ReadMoveInput();
+            ReadMouseLookInput();
+        }
+
+        private void ReadMoveInput()
+        {
+            var inputDirection = _input.Player.Move.ReadValue<Vector2>();
+            if (!(inputDirection.magnitude >= Constants.normalizedMoveSpeed.x)) return;
             
-            // TODO - read input for mouse look
+            _world.SendMessage(new PlayerMovementRequest
+            {
+                direction = inputDirection,
+                isRunning = _input.Player.Sprint.ReadValue<float>() != 0.0f
+            });
+        }
+
+        private void ReadMouseLookInput()
+        {
+            var mouseLookDirection = _input.Player.Look.ReadValue<Vector2>();
+            if (mouseLookDirection.magnitude == 0.0f) return;
+            
+            _world.SendMessage(new PlayerMouseMoveRequest { delta = mouseLookDirection });
         }
     }
 }

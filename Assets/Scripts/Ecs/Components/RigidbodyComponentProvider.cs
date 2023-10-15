@@ -1,9 +1,9 @@
 ﻿namespace Ecs.Components
 {
-    public class RigidbodyComponentProvider : Voody.UniLeo.MonoProvider<RigidbodyRef> {}
+    public class RigidbodyComponentProvider : Voody.UniLeo.MonoProvider<RigidbodyComponent> {}
     
     [System.Serializable]
-    public struct RigidbodyRef
+    public struct RigidbodyComponent
     {
         public UnityEngine.Rigidbody rigidbody;
     }

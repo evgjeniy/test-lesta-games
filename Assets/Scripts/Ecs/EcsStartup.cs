@@ -14,7 +14,7 @@ namespace Ecs
 		
 		private EcsWorld _world;
 		private EcsSystems _systems;
-
+		
 		private void Start()
 		{
 			_world = new EcsWorld();
@@ -33,20 +33,20 @@ namespace Ecs
 
 			_systems.Add(new PlayerInputSystem());
 			_systems.Add(new PlayerJumpSystem());
-			_systems.Add(new PlayerMovementSystem());
+			_systems.Add(new PlayerThirdPersonMovementSystem());
+			_systems.Add(new PlayerThirdPersonMouseLookSystem());
 			_systems.Add(new PlayerAnimationSystem());
-			
 			_systems.Add(new DebugMessageSystem());
 		}
 
 		private void AddOneFrames()
 		{
-			_systems
-				.OneFrame<PlayerEnableInputEvent>()
-				.OneFrame<PlayerDisableInputEvent>()
-				.OneFrame<PlayerJumpEvent>()
-				.OneFrame<PlayerMovementRequest>()
-				.OneFrame<DebugMessageRequest>();
+			_systems.OneFrame<PlayerEnableInputEvent>();
+			_systems.OneFrame<PlayerDisableInputEvent>();
+			_systems.OneFrame<PlayerJumpEvent>();
+			_systems.OneFrame<PlayerMovementRequest>();
+			_systems.OneFrame<PlayerMouseMoveRequest>();
+			_systems.OneFrame<DebugMessageRequest>();
 		}
 
 		private void Update() => _systems?.Run();

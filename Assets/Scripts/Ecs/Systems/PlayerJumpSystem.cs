@@ -9,8 +9,8 @@ namespace Ecs.Systems
 {
     public class PlayerJumpSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerJumpEvent> _jumpEventFilter = null;
-        private readonly EcsFilter<RigidbodyRef, JumpComponent, PlayerTag> _playerJumpFilter = null;
+        private readonly EcsFilter<PlayerJumpEvent> _jumpEventFilter;
+        private readonly EcsFilter<RigidbodyComponent, JumpComponent, PlayerTag> _playerJumpFilter;
         private readonly PlayerSettings _settings;
         
         public void Run()

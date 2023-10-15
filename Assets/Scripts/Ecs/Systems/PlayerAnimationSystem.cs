@@ -10,7 +10,7 @@ namespace Ecs.Systems
 {
     public class PlayerAnimationSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerMovementRequest> _movementRequests = null;
+        private readonly EcsFilter<PlayerMovementRequest> _movementRequests;
         private readonly EcsFilter<AnimatorRef, PlayerTag> _animationFilter;
         private readonly PlayerSettings _settings;
 
