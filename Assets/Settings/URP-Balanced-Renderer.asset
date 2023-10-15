@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6795659778245122554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 052a0051f28380a49905d797cf6fd45d, type: 3}
+  m_Name: MKToonPerObjectOutlines
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &-1878332245247344467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,8 +69,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: -1878332245247344467}
-  - {fileID: 1613365808414082006}
-  m_RendererFeatureMap: adc0de57c6d2eee5d643489fa7d36316
+  - {fileID: -6795659778245122554}
+  m_RendererFeatureMap: adc0de57c6d2eee506264ac76ff7b0a1
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -97,19 +113,3 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
---- !u!114 &1613365808414082006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052a0051f28380a49905d797cf6fd45d, type: 3}
-  m_Name: MKToonPerObjectOutlines
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
