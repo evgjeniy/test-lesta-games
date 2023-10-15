@@ -25,8 +25,7 @@ namespace Ecs.Systems
                     jumpComponent.triggerRadius,
                     jumpComponent.triggerMask.value);
 
-                if (!jumpComponent.isGrounded) continue;
-                if (_jumpEventFilter.IsEmpty()) continue;
+                if (jumpComponent.isGrounded is false || _jumpEventFilter.IsEmpty()) continue;
                 
                 var oldVelocity = rigidbody.velocity;
                 rigidbody.velocity = new Vector3(oldVelocity.x, _settings.jumpForce, oldVelocity.z);

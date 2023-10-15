@@ -31,21 +31,28 @@ namespace Ecs
 		{
 			// _systems.Add(new ChangeFpsLimitSystem()
 
+			_systems.Add(new InitializeEntitySystem());
+			
 			_systems.Add(new PlayerInputSystem());
 			_systems.Add(new PlayerJumpSystem());
 			_systems.Add(new PlayerThirdPersonMovementSystem());
 			_systems.Add(new PlayerThirdPersonMouseLookSystem());
 			_systems.Add(new PlayerAnimationSystem());
+			_systems.Add(new PlayerHealthSystem());
 			_systems.Add(new DebugMessageSystem());
 		}
 
 		private void AddOneFrames()
 		{
+			_systems.OneFrame<InitializeEntityRequest>();
 			_systems.OneFrame<PlayerEnableInputEvent>();
 			_systems.OneFrame<PlayerDisableInputEvent>();
 			_systems.OneFrame<PlayerJumpEvent>();
 			_systems.OneFrame<PlayerMovementRequest>();
 			_systems.OneFrame<PlayerMouseMoveRequest>();
+			_systems.OneFrame<HealRequest>();
+			_systems.OneFrame<TakeDamageRequest>();
+			_systems.OneFrame<WindEffectRequest>();
 			_systems.OneFrame<DebugMessageRequest>();
 		}
 

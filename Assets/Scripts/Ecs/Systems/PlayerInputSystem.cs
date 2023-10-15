@@ -1,5 +1,6 @@
 ﻿using Ecs.Components.Events;
 using Ecs.Components.Requests;
+using Ecs.Components.Tags;
 using Ecs.Utilities;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace Ecs.Systems
             var inputDirection = _input.Player.Move.ReadValue<Vector2>();
             if (!(inputDirection.magnitude >= Constants.normalizedMoveSpeed.x)) return;
             
-            _world.SendMessage(new PlayerMovementRequest
+            _world.GetEntity<PlayerTag>().SendMessage(new PlayerMovementRequest
             {
                 direction = inputDirection,
                 isRunning = _input.Player.Sprint.ReadValue<float>() != 0.0f

@@ -10,7 +10,6 @@ namespace Ecs.Systems
 {
     public class PlayerAnimationSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerMovementRequest> _movementRequests;
         private readonly EcsFilter<AnimatorRef, PlayerTag> _animationFilter;
         private readonly PlayerSettings _settings;
 
@@ -25,9 +24,10 @@ namespace Ecs.Systems
                     animator.SetBool(AnimConstants.isJumping, !entity.Get<JumpComponent>().isGrounded);
 
                 var oldSpeed = animator.GetFloat(AnimConstants.runSpeed);
-                var newSpeed = _movementRequests.IsEmpty()
-                    ? 0
-                    : 1 / (_movementRequests.Get1(0).isRunning ? 1.0f : _settings.runMultiplier);
+                var newSpeed = 0.0f;
+
+                if (entity.Has<PlayerMovementRequest>())
+                    newSpeed = 1 / (entity.Get<PlayerMovementRequest>().isRunning ? 1.0f : _settings.runMultiplier);
                 
                 var lerpSpeed = Mathf.Lerp(oldSpeed, newSpeed, _settings.runAnimationSmoothTime * Time.deltaTime);
 

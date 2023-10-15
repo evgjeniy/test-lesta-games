@@ -23,5 +23,8 @@ namespace ScriptableObjects
         [Header("Camera collision detection")]
         public bool isCollided = true;
         public LayerMask cameraCollisionMask;
+
+        [Header("Player Settings")]
+        [Min(0.0f)] public float playerMaxHealth = 100.0f;
     }
 }
