@@ -10,11 +10,10 @@ using UnityEngine;
 public class WindPlatform : MonoBehaviour
 {
     [SerializeField] private ParticleSystem windParticles;
-    [SerializeField, Range(0.0f, 10.0f)] private float windSpeed = 0.7f;
+    [SerializeField, Range(0.0f, 10.0f)] private float windSpeed = 1.0f;
 
     private readonly List<EntityReference> _entityReferences = new();
     private float _elapsedTime;
-    private Vector3 _windDirection;
 
     private void Update()
     {
@@ -23,8 +22,7 @@ public class WindPlatform : MonoBehaviour
         if (_elapsedTime > 2.0f)
         {
             _elapsedTime = 0.0f;
-            _windDirection = GetRandomWindDirection();
-            windParticles.transform.LookAt(_windDirection);
+            windParticles.transform.Rotate(Vector3.up, Random.Range(0.0f, 360.0f));
         }
         
         foreach (var entityReference in _entityReferences)
@@ -32,31 +30,24 @@ public class WindPlatform : MonoBehaviour
             entityReference.Entity.SendMessage(new WindEffectRequest
             {
                 windSpeedValue = windSpeed,
-                windDirection = _windDirection
+                windDirection = windParticles.transform.forward
             });
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!other.collider.TryGetComponent<EntityReference>(out var entityReference)) return;
+        if (!other.TryGetComponent<EntityReference>(out var entityReference)) return;
         if (!entityReference.Entity.Has<PlayerTag>()) return;
         
         _entityReferences.Add(entityReference);
     }
     
-    private void OnCollisionExit(Collision other)
+    private void OnTriggerExit(Collider other)
     {
-        if (!other.collider.TryGetComponent<EntityReference>(out var entityReference)) return;
+        if (!other.TryGetComponent<EntityReference>(out var entityReference)) return;
         if (!entityReference.Entity.Has<PlayerTag>()) return;
 
         _entityReferences.Remove(entityReference);
     }
-
-    private static Vector3 GetRandomWindDirection() => new Vector3
-    {
-        x = Random.Range(-1.0f, 1.0f), 
-        y = 0.0f, 
-        z = Random.Range(-1.0f, 0.0f)
-    }.normalized;
 }

@@ -15,9 +15,6 @@ namespace Ecs.Systems
         
         public void Run()
         {
-            if (_movementRequests.IsEmpty()) return;
-            ref var movementRequest = ref _movementRequests.Get1(0);
-                
             foreach (var entityId in _thirdPersonPlayerFilter)
             {
                 ref var entity = ref _thirdPersonPlayerFilter.GetEntity(entityId);
@@ -27,22 +24,23 @@ namespace Ecs.Systems
                 var rigidbody = rigidbodyComponent.rigidbody;
                 var cameraTransform = thirdPersonMovementComponent.camera.transform;
 
-                var moveDirection = GetMoveDirection(movementRequest, cameraTransform, rigidbody);
+                var moveDirection = GetMoveDirection(cameraTransform, rigidbody);
 
                 if (entity.Has<WindEffectRequest>())
                 {
                     ref var windEffect = ref entity.Get<WindEffectRequest>();
-                    moveDirection -= windEffect.windSpeedValue * windEffect.windDirection.normalized;
+                    moveDirection += windEffect.windSpeedValue * windEffect.windDirection.normalized;
                 }
                 
                 rigidbody.position += moveDirection * Time.deltaTime;
             }
         }
 
-        private Vector3 GetMoveDirection(PlayerMovementRequest movementRequest, Transform cameraTransform, Rigidbody rigidbody)
+        private Vector3 GetMoveDirection(Transform cameraTransform, Rigidbody rigidbody)
         {
             if (_movementRequests.IsEmpty()) return Vector3.zero;
-
+            ref var movementRequest = ref _movementRequests.Get1(0);
+            
             var moveDirection = GetMoveDirectionFromCamera(movementRequest.direction, cameraTransform);
             moveDirection *= _settings.moveSpeed * (movementRequest.isRunning ? _settings.runMultiplier : 1.0f);
             
