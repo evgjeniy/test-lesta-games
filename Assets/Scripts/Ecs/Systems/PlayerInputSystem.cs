@@ -12,7 +12,8 @@ namespace Ecs.Systems
     {
         private readonly EcsFilter<PlayerEnableInputEvent> _enableFilter;
         private readonly EcsFilter<PlayerDisableInputEvent> _disableFilter;
-        
+        private readonly EcsFilter<ReverseMovementEvent> _reverseEventsFilter;
+
         private readonly EcsWorld _world;
         private PlayerInput _input;
 
@@ -50,6 +51,13 @@ namespace Ecs.Systems
         {
             var inputDirection = _input.Player.Move.ReadValue<Vector2>();
             if (!(inputDirection.magnitude >= Constants.normalizedMoveSpeed.x)) return;
+
+            if (_reverseEventsFilter.IsEmpty() is false)
+            {
+                inputDirection *= -1.0f;
+                foreach (var entityId in _reverseEventsFilter)
+                    _reverseEventsFilter.GetEntity(entityId).Del<ReverseMovementEvent>();
+            }
             
             _world.GetEntity<PlayerTag>().SendMessage(new PlayerMovementRequest
             {

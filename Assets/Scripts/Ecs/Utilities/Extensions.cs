@@ -5,6 +5,12 @@ namespace Ecs.Utilities
 {
     public static class Extensions
     {
+        public static bool HasEntity<T>(this EcsWorld world) where T : struct
+        {
+            var ecsFilter = world.GetFilter(typeof(EcsFilter<T>));
+            return !ecsFilter.IsEmpty();
+        }
+        
         public static void SendMessage<T>(this EcsWorld world, in T message = default) where T : struct
         {
             world.NewEntity().Get<T>() = message;
@@ -18,6 +24,20 @@ namespace Ecs.Utilities
         public static ref T GetComponent<T>(this EcsWorld world, in int index = 0) where T : struct
         {
             return ref world.GetEntity<T>(index).Get<T>();
+        }
+
+        public static bool TryGetEntity<T>(this EcsWorld world, out EcsEntity entity, in int index = 0) where T : struct
+        {
+            var ecsFilter = world.GetFilter(typeof(EcsFilter<T>));
+
+            if (index < 0 || index >= ecsFilter.GetEntitiesCount())
+            {
+                entity = default;
+                return false;
+            }
+
+            entity = ecsFilter.GetEntity(index);
+            return true;
         }
 
         public static ref EcsEntity GetEntity<T>(this EcsWorld world, in int index = 0) where T : struct
