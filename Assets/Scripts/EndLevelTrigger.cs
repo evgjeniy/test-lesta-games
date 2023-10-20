@@ -19,6 +19,5 @@ public class EndLevelTrigger : MonoBehaviour
         var ecsWorld = WorldHandler.GetWorld();
 
         ecsWorld.SendMessage(new LevelEndedEvent { isLevelPassed = isPassed });
-        ecsWorld.SendMessage<PlayerDisableInputEvent>();
     }
 }

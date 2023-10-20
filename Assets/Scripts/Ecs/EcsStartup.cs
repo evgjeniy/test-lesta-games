@@ -39,6 +39,7 @@ namespace Ecs
 			_systems.Add(new PlayerThirdPersonMouseLookSystem());
 			_systems.Add(new PlayerAnimationSystem());
 			_systems.Add(new PlayerHealthSystem());
+			_systems.Add(new HealthViewSystem());
 			_systems.Add(new FinishUiSystem());
 			_systems.Add(new DebugMessageSystem());
 		}
@@ -46,17 +47,16 @@ namespace Ecs
 		private void AddOneFrames()
 		{
 			_systems.OneFrame<InitializeEntityRequest>();
-			_systems.OneFrame<PlayerEnableInputEvent>();
-			_systems.OneFrame<PlayerDisableInputEvent>();
 			_systems.OneFrame<PlayerJumpEvent>();
 			_systems.OneFrame<TrampolineJumpRequest>();
 			_systems.OneFrame<PlayerMovementRequest>();
 			_systems.OneFrame<PlayerMouseMoveRequest>();
 			_systems.OneFrame<HealRequest>();
 			_systems.OneFrame<TakeDamageRequest>();
+			_systems.OneFrame<HealthChangedEvent>();
 			_systems.OneFrame<WindEffectRequest>();
-			_systems.OneFrame<DebugMessageRequest>();
 			_systems.OneFrame<LevelEndedEvent>();
+			_systems.OneFrame<DebugMessageRequest>();
 		}
 
 		private void Update() => _systems?.Run();

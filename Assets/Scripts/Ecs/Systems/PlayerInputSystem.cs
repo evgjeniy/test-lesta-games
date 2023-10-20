@@ -28,8 +28,19 @@ namespace Ecs.Systems
 
         public void Run()
         {
-            if (_enableFilter.IsEmpty() is false) _input.Enable();
-            if (_disableFilter.IsEmpty() is false) _input.Disable();
+            if (_enableFilter.IsEmpty() is false)
+            {
+                _input.Enable();
+                foreach (var entityId in _enableFilter)
+                    _enableFilter.GetEntity(entityId).Del<PlayerEnableInputEvent>();
+            }
+
+            if (_disableFilter.IsEmpty() is false)
+            {
+                _input.Disable();
+                foreach (var entityId in _enableFilter)
+                    _disableFilter.GetEntity(entityId).Del<PlayerDisableInputEvent>();
+            }
             
             ReadMoveInput();
             ReadMouseLookInput();

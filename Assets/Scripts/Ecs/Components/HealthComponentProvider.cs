@@ -7,6 +7,7 @@ namespace Ecs.Components
     [System.Serializable]
     public struct HealthComponent
     {
+        public float maxHealth;
         [HideInInspector] public float currentHealth;
     }
 }

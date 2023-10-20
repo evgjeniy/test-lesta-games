@@ -9,13 +9,24 @@ namespace Ecs.Systems
 {
     public class FinishUiSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<LevelEndedEvent> _passedFilter;
+        private readonly EcsWorld _world;
+        private readonly EcsFilter<LevelEndedEvent> _levelEndedEventFilter;
         private readonly EcsFilter<FinishUiComponents, FinishUiTag> _finishFilter;
 
         public void Run()
         {
-            if (_passedFilter.IsEmpty()) return;
-            var isPassed = _passedFilter.Get1(0).isLevelPassed;
+            if (_levelEndedEventFilter.IsEmpty()) return;
+
+            var isPassed = false;
+            foreach (var entityId in _levelEndedEventFilter)
+            {
+                ref var entity = ref _levelEndedEventFilter.GetEntity(entityId);
+                isPassed = entity.Get<LevelEndedEvent>().isLevelPassed;
+                
+                entity.Del<LevelEndedEvent>();
+            }
+            
+            _world.SendMessage<PlayerDisableInputEvent>();
             
             foreach (var entityId in _finishFilter)
             {
