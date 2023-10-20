@@ -39,6 +39,7 @@ namespace Ecs
 			_systems.Add(new PlayerThirdPersonMouseLookSystem());
 			_systems.Add(new PlayerAnimationSystem());
 			_systems.Add(new PlayerHealthSystem());
+			_systems.Add(new FinishUiSystem());
 			_systems.Add(new DebugMessageSystem());
 		}
 
@@ -55,6 +56,7 @@ namespace Ecs
 			_systems.OneFrame<TakeDamageRequest>();
 			_systems.OneFrame<WindEffectRequest>();
 			_systems.OneFrame<DebugMessageRequest>();
+			_systems.OneFrame<LevelEndedEvent>();
 		}
 
 		private void Update() => _systems?.Run();

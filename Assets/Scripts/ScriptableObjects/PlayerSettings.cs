@@ -15,7 +15,8 @@ namespace ScriptableObjects
         [Range(0.0f, 30.0f)] public float jumpForce = 6.0f;
         
         [Header("Camera Settings")]
-        [Min(0.0f)] public Vector2 verticalRotationBounds = new(10.0f, 130.0f);
+        [Min(0.0f)] public Vector2 startPlayerRotation = new(180.0f, 70.0f);
+        [Min(0.0f)] public Vector2 yRotationBounds = new(10.0f, 130.0f);
         [Min(0.0f)] public Vector2 cameraSensitivity = new(5.0f, 5.0f);
         [Range(0.0f, 30.0f)] public float maxDistanceToTarget = 5.0f;
         [Range(0.0f, 30.0f)] public float cameraZoomSpeed = 15.0f;

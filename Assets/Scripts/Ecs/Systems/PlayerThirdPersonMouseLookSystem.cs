@@ -2,16 +2,26 @@
 using Ecs.Components.Requests;
 using Ecs.Components.Tags;
 using Leopotam.Ecs;
-using ScriptableObjects;
 using UnityEngine;
+using PlayerSettings = ScriptableObjects.PlayerSettings;
 
 namespace Ecs.Systems
 {
-    public class PlayerThirdPersonMouseLookSystem : IEcsRunSystem
+    public class PlayerThirdPersonMouseLookSystem : IEcsInitSystem, IEcsRunSystem
     {
         private readonly EcsFilter<PlayerMouseMoveRequest> _mouseMoveFilter;
         private readonly EcsFilter<ThirdPersonCamera, PlayerTag> _thirdPersonPlayerFilter;
         private readonly PlayerSettings _settings;
+
+        public void Init()
+        {
+            foreach (var playerId in _thirdPersonPlayerFilter)
+            {
+                ref var thirdPersonCamera = ref _thirdPersonPlayerFilter.Get1(playerId);
+                thirdPersonCamera.currentRotation.x = _settings.startPlayerRotation.x;
+                thirdPersonCamera.currentRotation.y = _settings.startPlayerRotation.y;
+            }
+        }
         
         public void Run()
         {
@@ -69,8 +79,8 @@ namespace Ecs.Systems
         private float CheckVerticalBounds(float yValue) => Mathf.Clamp
         (
             yValue,
-            _settings.verticalRotationBounds.x,
-            _settings.verticalRotationBounds.y
+            _settings.yRotationBounds.x,
+            _settings.yRotationBounds.y
         );
     }
 }

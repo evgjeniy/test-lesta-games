@@ -13,5 +13,6 @@ namespace Ecs.Utilities
         public static readonly int isJumping = Animator.StringToHash("Is Jumping");
         public static readonly int takeDamage = Animator.StringToHash("Take Damage");
         public static readonly int trampolineJump = Animator.StringToHash("Trampoline Jump");
+        public static readonly int levelEnded = Animator.StringToHash("Level Ended");
     }
 }

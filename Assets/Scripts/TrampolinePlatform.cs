@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Ecs;
 using Ecs.Components;
 using Ecs.Components.Requests;

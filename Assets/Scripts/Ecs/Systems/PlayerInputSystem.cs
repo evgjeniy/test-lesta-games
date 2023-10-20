@@ -20,7 +20,6 @@ namespace Ecs.Systems
         {
             _input = new PlayerInput();
             _input.Player.Jump.performed += SendJumpEvent;
-            _input.Enable();
         }
 
         public void Destroy() => _input.Player.Jump.performed -= SendJumpEvent;
