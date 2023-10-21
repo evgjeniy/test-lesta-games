@@ -1,5 +1,7 @@
 # Lesta Games - Developer Test Task
 
+## [Ссылка на Build](build.zip)
+
 ## Превью
 
 ![](readme_files/preview.gif)
